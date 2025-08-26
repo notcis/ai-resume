@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
 import UserNav from "./user-nav";
+import { Toaster } from "react-hot-toast";
 
 export default function TopNav() {
   const { data: session } = useSession();
@@ -15,6 +16,9 @@ export default function TopNav() {
       <Link href="/">
         <Image src="/logo.svg" alt="Logo" width={50} height={39} />
       </Link>
+
+      <Toaster />
+
       <div className="flex justify-end items-center gap-2">
         {!session?.user ? (
           <Button variant="link" asChild>

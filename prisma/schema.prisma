@@ -22,6 +22,7 @@ model User {
   password String?
   image    String?
   accounts Account[]
+  Resume   Resume?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -40,4 +41,54 @@ model Account {
 
   @@unique([provider, providerAccountId])
   @@index([userId])
+}
+
+model Resume {
+  id         String       @id @default(cuid())
+  userId     String       @unique
+  userEmail  String
+  title      String?
+  name       String?
+  job        String?
+  address    String?
+  themeColor String?
+  phone      String?
+  summary    String?
+  experience Experience[]
+  education  Education[]
+  skill      Skill[]
+  user       User?        @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id        String    @id @default(cuid())
+  resumeId  String
+  title     String?
+  company   String?
+  address   String?
+  startDate DateTime?
+  endDate   DateTime?
+  summary   String?
+  resume    Resume?   @relation(fields: [resumeId], references: [id])
+}
+
+model Education {
+  id            String  @id @default(cuid())
+  resumeId      String
+  name          String?
+  address       String?
+  qualification String?
+  year          String?
+  resume        Resume? @relation(fields: [resumeId], references: [id])
+}
+
+model Skill {
+  id       String  @id @default(cuid())
+  resumeId String
+  name     String?
+  level    String?
+  resume   Resume? @relation(fields: [resumeId], references: [id])
 }

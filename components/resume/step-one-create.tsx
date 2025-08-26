@@ -4,7 +4,7 @@ import { Input } from "../ui/input";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-export default function StepOne() {
+export default function StepOneCreate() {
   const { data: session } = useSession();
   const { resume, setResume, saveResume } = useResume();
 
