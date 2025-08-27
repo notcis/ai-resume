@@ -4,7 +4,6 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ResumeProps } from "@/lib/type";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const saveResumeToDB = async (data: ResumeProps) => {
   try {
     const session = await auth();
@@ -32,4 +31,37 @@ export const saveResumeToDB = async (data: ResumeProps) => {
     console.error("Error saving resume:", error);
     return { success: false, message: "Failed to save resume" };
   }
+};
+
+export const getUserResumeFromDB = async () => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return {
+      success: false,
+      message: "Unauthorized",
+    };
+  }
+
+  const resume = await prisma.resume.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    include: {
+      experience: true,
+      education: true,
+      skill: true,
+    },
+  });
+
+  if (!resume) {
+    return {
+      success: false,
+      resume: [],
+    };
+  }
+
+  return {
+    success: true,
+    resume,
+  };
 };

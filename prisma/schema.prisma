@@ -22,7 +22,7 @@ model User {
   password String?
   image    String?
   accounts Account[]
-  Resume   Resume?
+  Resume   Resume[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -45,7 +45,7 @@ model Account {
 
 model Resume {
   id         String       @id @default(cuid())
-  userId     String       @unique
+  userId     String
   userEmail  String
   title      String?
   name       String?
@@ -61,6 +61,9 @@ model Resume {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([id, userId], name: "unique_resume_user")
+  @@index([userId], name: "index_resume_user")
 }
 
 model Experience {
@@ -73,6 +76,8 @@ model Experience {
   endDate   DateTime?
   summary   String?
   resume    Resume?   @relation(fields: [resumeId], references: [id])
+
+  @@index([resumeId], name: "index_experience_resume")
 }
 
 model Education {
@@ -83,6 +88,8 @@ model Education {
   qualification String?
   year          String?
   resume        Resume? @relation(fields: [resumeId], references: [id])
+
+  @@index([resumeId], name: "index_education_resume")
 }
 
 model Skill {
@@ -91,4 +98,6 @@ model Skill {
   name     String?
   level    String?
   resume   Resume? @relation(fields: [resumeId], references: [id])
+
+  @@index([resumeId], name: "index_skill_resume")
 }

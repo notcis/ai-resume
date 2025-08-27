@@ -6,12 +6,12 @@ import Link from "next/link";
 
 export default function StepOne() {
   const { data: session } = useSession();
-  const { resume, setResume, saveResume } = useResume();
+  const { resume, setResume } = useResume();
 
   // Handle form submission
   const handleSubmit = async () => {
     // Save the resume
-    await saveResume();
+    //await saveResume();
   };
 
   // Handle input changes

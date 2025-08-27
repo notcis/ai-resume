@@ -1,6 +1,7 @@
 "use client";
 
-import { saveResumeToDB } from "@/actions/resume.action";
+import { getUserResumeFromDB, saveResumeToDB } from "@/actions/resume.action";
+import { Resume } from "@/lib/generated/prisma";
 import { ResumeProps } from "@/lib/type";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -12,6 +13,9 @@ type ResumeContextType = {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   saveResume: () => Promise<void>;
+  resumes: Resume[];
+  setResumes: React.Dispatch<React.SetStateAction<Resume[]>>;
+  getUserResumes: () => Promise<void>;
 };
 
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
@@ -29,6 +33,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [resume, setResume] = useState<any>(initialState);
+  const [resumes, setResumes] = useState<Resume[]>([]);
   const [step, setStep] = useState<number>(1);
 
   // Load resume from local storage
@@ -42,6 +47,10 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  useEffect(() => {
+    getUserResumes();
+  }, []);
+
   const saveResume = async () => {
     const data = await saveResumeToDB(resume);
 
@@ -51,13 +60,33 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
 
     setResume(data.resume);
+    setStep(2);
     toast.success("🎉 Resume saved. Keep building!");
     router.push(`/dashboard/resume/edit/${data.resume?.id}`);
   };
 
+  const getUserResumes = async () => {
+    const data = await getUserResumeFromDB();
+
+    if (!data.success) {
+      toast.error("❌ Failed to load resume. Please try again.");
+      return;
+    }
+    setResumes(data.resume as Resume[]);
+  };
+
   return (
     <ResumeContext.Provider
-      value={{ resume, setResume, step, setStep, saveResume }}
+      value={{
+        resume,
+        setResume,
+        step,
+        setStep,
+        saveResume,
+        resumes,
+        setResumes,
+        getUserResumes,
+      }}
     >
       {children}
     </ResumeContext.Provider>
