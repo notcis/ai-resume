@@ -1,5 +1,6 @@
 "use client";
 
+import ResumeCard from "@/components/cards/resume-card";
 import SkeletonCard from "@/components/cards/skeleton-card";
 import { useResume } from "@/context/resume";
 
@@ -20,8 +21,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div>
-      <pre>{JSON.stringify(resumes, null, 2)}</pre>
+    <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
+      {resumes.map((resume) => (
+        <ResumeCard key={resume.id} resume={resume} />
+      ))}
     </div>
   );
 }
