@@ -36,6 +36,7 @@ const initialState = {
   phone: "",
   email: "",
   themeColor: "",
+  summary: "",
 };
 
 // Create the provider
@@ -119,7 +120,6 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
     setResume(data.resume);
     toast.success("✅ Resume updated successfully!, keep building!");
-    setStep(2);
   };
 
   // Create the provider

@@ -122,6 +122,7 @@ export const updateResumeFromDB = async (data: ResumeProps, id: string) => {
         address: data.address,
         phone: data.phone,
         themeColor: data.themeColor,
+        summary: data.summary,
       },
     });
 

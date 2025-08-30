@@ -5,4 +5,5 @@ export type ResumeProps = {
   phone: string;
   email: string;
   themeColor: string;
+  summary: string;
 };
