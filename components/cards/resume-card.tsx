@@ -1,6 +1,7 @@
 import { Resume } from "@/lib/generated/prisma";
 import PersonalDetails from "../preview/personal-details";
 import Link from "next/link";
+import Summary from "../preview/summary";
 
 export default function ResumeCard({ resume }: { resume: Resume }) {
   return (
@@ -10,6 +11,7 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
         style={{ borderColor: resume.themeColor || "#b3aeae3d" }}
       >
         <PersonalDetails resume={resume} />
+        <Summary resume={resume} />
       </div>
     </Link>
   );

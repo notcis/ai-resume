@@ -8,7 +8,7 @@ import {
 } from "@/actions/resume.action";
 import { Resume } from "@/lib/generated/prisma";
 import { ResumeProps } from "@/lib/type";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -43,19 +43,29 @@ const initialState = {
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { id } = useParams();
+  const pathname = usePathname();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [resume, setResume] = useState<any>(initialState);
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [step, setStep] = useState<number>(1);
 
-  // Load resume from local storage
   useEffect(() => {
+    if (pathname.includes("/resume/create")) {
+      // Load resume from database
+
+      setResume(initialState);
+      setStep(1);
+    }
+  }, [pathname]);
+
+  // Load resume from local storage
+  /*   useEffect(() => {
     const storedResume = localStorage.getItem("resume");
     if (storedResume) {
       setResume(JSON.parse(storedResume));
     }
-  }, []);
+  }, []); */
 
   // Get user resumes
   useEffect(() => {
