@@ -8,6 +8,13 @@ import { BrainIcon, Loader2Icon } from "lucide-react";
 import toast from "react-hot-toast";
 import { runAi } from "@/actions/gemeni-ai";
 
+/* import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+  loading: () => <div>Loading editor...</div>,
+});
+import "react-quill/dist/quill.snow.css"; */
+
 export default function StepTwo() {
   const { resume, setResume, updateResume, setStep } = useResume();
   const [isPending, startTransition] = useTransition();
@@ -58,7 +65,12 @@ export default function StepTwo() {
         rows={10}
         required
       />
-      <div className="flex justify-end">
+      {/* <ReactQuill
+        theme="snow"
+        value={resume.summary}
+        onChange={(value) => setResume({ ...resume, summary: value })}
+      /> */}
+      <div className="flex justify-end mt-3">
         <Button onClick={handleSubmit}>Update</Button>
       </div>
     </div>
