@@ -1,17 +1,55 @@
+"use client";
+
 import { useResume } from "@/context/resume";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { useTransition } from "react";
+import { BrainIcon, Loader2Icon } from "lucide-react";
+import toast from "react-hot-toast";
+import { runAi } from "@/actions/gemeni-ai";
 
 export default function StepTwo() {
   const { resume, setResume, updateResume, setStep } = useResume();
+  const [isPending, startTransition] = useTransition();
 
   const handleSubmit = async () => {
     await updateResume();
     setStep(3);
   };
+
+  const handleGenerateWithAI = async () => {
+    startTransition(async () => {
+      if (!resume.job) {
+        toast.error("Please fill in the job title.");
+        return;
+      }
+
+      const response = await runAi(resume.job);
+      setResume({ ...resume, summary: response || "" });
+    });
+  };
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
-      <h2 className=" text-2xl font-bold mb-5">Summary</h2>
+      <div className=" flex justify-between">
+        <h2
+          style={{ color: resume.themeColor }}
+          className=" text-2xl font-bold mb-5"
+        >
+          Summary
+        </h2>
+        <Button
+          disabled={isPending}
+          variant="destructive"
+          onClick={handleGenerateWithAI}
+        >
+          {isPending ? (
+            <Loader2Icon size={18} className="mr-2 animate-spin" />
+          ) : (
+            <BrainIcon size={18} className="mr-2" />
+          )}{" "}
+          Generate with AI
+        </Button>
+      </div>
       <Textarea
         onChange={(e) => setResume({ ...resume, summary: e.target.value })}
         value={resume.summary}

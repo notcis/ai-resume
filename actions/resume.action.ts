@@ -10,6 +10,11 @@ export const saveResumeToDB = async (data: ResumeProps) => {
   if (!session?.user?.id) {
     return { success: false, message: "Unauthorized" };
   }
+
+  if (!data.email || !data.name || !data.job || !data.address || !data.phone) {
+    return { success: false, message: "Missing required fields" };
+  }
+
   try {
     const resume = await prisma.resume.create({
       data: {
@@ -109,6 +114,11 @@ export const updateResumeFromDB = async (data: ResumeProps, id: string) => {
   if (!session?.user?.id) {
     return { success: false, message: "Unauthorized" };
   }
+
+  if (!data.email || !data.name || !data.job || !data.address || !data.phone) {
+    return { success: false, message: "Missing required fields" };
+  }
+
   try {
     const resume = await prisma.resume.update({
       where: {
