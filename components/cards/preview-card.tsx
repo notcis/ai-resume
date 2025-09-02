@@ -1,7 +1,6 @@
 import { useResume } from "@/context/resume";
 import PersonalDetails from "../preview/personal-details";
 import Summary from "../preview/summary";
-import { Resume } from "@/lib/generated/prisma";
 
 export default function PreviewCard() {
   const { resume } = useResume();
