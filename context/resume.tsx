@@ -23,29 +23,29 @@ type ResumeContextType = {
   getUserResumes: () => Promise<void>;
   updateResume: () => Promise<void>;
   experienceList: (typeof experienceField)[];
-  setExperienceList: React.Dispatch<
-    React.SetStateAction<(typeof experienceField)[]>
-  >;
-  ExperienceLoading: boolean;
-  setExperienceLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  experienceLoading: boolean[];
   handleExperienceChange: (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
     index: number
   ) => void;
   handleExperienceSubmit: () => void;
   addExperience: () => void;
   removeExperience: () => void;
-  handleExperienceGenerateWithAi: () => void;
+  handleExperienceGenerateWithAi: (index: number) => void;
 };
 
 // Create the context
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
 const experienceField = {
+  id: "",
   title: "",
   company: "",
   address: "",
   startDate: "",
+  endDate: "",
   summary: "",
 };
 
@@ -77,7 +77,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     experienceField,
   ]);
 
-  const [ExperienceLoading, setExperienceLoading] = useState<boolean>(false);
+  const [experienceLoading, setExperienceLoading] = useState<boolean[]>([]);
 
   useEffect(() => {
     if (pathname.includes("/resume/create")) {
@@ -168,28 +168,36 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   }, [resume]);
 
   const handleExperienceChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
     index: number
   ) => {
-    const { name, value } = e.target;
-    setExperienceList((prev) =>
-      prev.map((exp, i) => (i === index ? { ...exp, [name]: value } : exp))
-    );
-  };
-
-  const handleExperienceQuillChange = (value: string, index: number) => {
-    setExperienceList((prev) =>
-      prev.map((exp, i) => (i === index ? { ...exp, description: value } : exp))
-    );
+    const newExperience = [...experienceList];
+    const [name, value] = [e.target.name, e.target.value];
+    newExperience[index][name] = value;
+    setExperienceList(newExperience);
   };
 
   const handleExperienceSubmit = () => {};
 
-  const addExperience = () => {};
+  // Add new experience
+  const addExperience = () => {
+    const newExperience = {
+      ...experienceField,
+    };
+    setExperienceList([...experienceList, newExperience]);
+  };
 
-  const removeExperience = () => {};
+  // Remove experience
+  const removeExperience = () => {
+    if (experienceList.length === 1) return;
+    const newEntries = experienceList.slice(0, experienceList.length - 1);
+    setExperienceList(newEntries);
+  };
 
-  const handleExperienceGenerateWithAi = () => {};
+  //
+  const handleExperienceGenerateWithAi = (index: number) => {};
 
   // Create the provider
   return (
@@ -210,9 +218,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         removeExperience,
         handleExperienceGenerateWithAi,
         experienceList,
-        setExperienceList,
-        ExperienceLoading,
-        setExperienceLoading,
+        experienceLoading,
       }}
     >
       {children}

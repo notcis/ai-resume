@@ -145,3 +145,37 @@ export const updateResumeFromDB = async (data: ResumeProps, id: string) => {
     return { success: false, message: "Failed to update resume" };
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateExperienceToDB = async (resumeId: string, data: any) => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "Unauthorized" };
+  }
+
+  const { id, ...rest } = data;
+
+  try {
+    const resume = await prisma.experience.upsert({
+      where: {
+        id,
+        resumeId,
+      },
+      update: {
+        ...rest,
+      },
+      create: {
+        ...rest,
+        resumeId,
+      },
+    });
+
+    return {
+      success: true,
+      resume,
+    };
+  } catch (error) {
+    console.error("Error updating resume:", error);
+    return { success: false, message: "Failed to update resume" };
+  }
+};
