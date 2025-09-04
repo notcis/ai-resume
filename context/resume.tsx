@@ -1,5 +1,6 @@
 "use client";
 
+import { runAi } from "@/actions/gemeni-ai";
 import {
   getResumeFromDB,
   getUserResumeFromDB,
@@ -83,6 +84,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   const [experienceLoading, setExperienceLoading] = useState<boolean[]>([]);
 
+  // Update experience in the database
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const updateExperience = async (experienceList: any[]) => {
     const data = await updateExperienceToDB({
@@ -100,6 +102,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     toast.success("✅ Experience updated. keep building!");
   };
 
+  // Reset resume when creating a new one
   useEffect(() => {
     if (pathname.includes("/resume/create")) {
       // Load resume from database
@@ -170,6 +173,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     setResume(data.resume);
   };
 
+  // Update resume
   const updateResume = async () => {
     const data = await updateResumeFromDB(resume, id as string);
     if (!data.success) {
@@ -182,12 +186,14 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     toast.success("✅ Resume updated successfully!, keep building!");
   };
 
+  // Sync experience list with resume experience
   useEffect(() => {
     if (resume.experience) {
       setExperienceList(resume.experience);
     }
   }, [resume]);
 
+  // Handle experience change
   const handleExperienceChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -200,6 +206,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     setExperienceList(newExperience);
   };
 
+  // Submit experience
   const handleExperienceSubmit = () => {
     updateExperience(experienceList);
   };
@@ -221,8 +228,46 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     setExperienceList(newEntries);
   };
 
-  //
-  const handleExperienceGenerateWithAi = (index: number) => {};
+  // Handle experience generation with AI
+  const handleExperienceGenerateWithAi = async (index: number) => {
+    setExperienceLoading((prev) => ({ ...prev, [index]: true }));
+
+    const selectedExperience = experienceList[index];
+
+    if (!selectedExperience || !selectedExperience.title) {
+      toast.error("Please enter a job title to generate experience.");
+      setExperienceLoading((prev) => ({ ...prev, [index]: false }));
+      return;
+    }
+
+    const jobTitle = selectedExperience.title;
+    const jobSummary = selectedExperience.summary || "";
+
+    try {
+      const response = await runAi(
+        `Generate a list of duties and responsibilities in 3-4 bullet points for a job title "${jobTitle}" ${jobSummary} not in markdown format.`
+      );
+
+      const updatedExperienceList = experienceList.slice();
+      updatedExperienceList[index] = {
+        ...selectedExperience,
+        summary: response,
+      };
+      setExperienceList(updatedExperienceList);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setResume((prev: any) => ({
+        ...prev,
+        experience: updatedExperienceList,
+      }));
+
+      toast.success("✅ Experience generated. You can edit it further.");
+      setExperienceLoading((prev) => ({ ...prev, [index]: false }));
+    } catch (error) {
+      console.error("AI generation error:", error);
+      toast.error("❌ Failed to generate experience. Please try again.");
+      setExperienceLoading((prev) => ({ ...prev, [index]: false }));
+    }
+  };
 
   // Create the provider
   return (
