@@ -20,7 +20,8 @@ export default function StepOne() {
     // Update resume state and local storage
     const { name, value } = e.target;
     // Update resume state and local storage
-    setResume((prev) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setResume((prev: any) => {
       // Create a new resume object with the updated field
       const updateResume = { ...prev, [name]: value };
       // Save the updated resume to local storage

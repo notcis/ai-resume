@@ -19,6 +19,8 @@ export default function StepTwo() {
   const { resume, setResume, updateResume, setStep } = useResume();
   const [isPending, startTransition] = useTransition();
 
+  console.log("resume in step two:", resume);
+
   const handleSubmit = async () => {
     await updateResume();
     setStep(3);
@@ -31,7 +33,9 @@ export default function StepTwo() {
         return;
       }
 
-      const response = await runAi(resume.job);
+      const response = await runAi(
+        `Generate a resume summary 1-2 sentences for a person with the following details: ${resume.job} in plain text format`
+      );
       setResume({ ...resume, summary: response || "" });
     });
   };

@@ -21,7 +21,7 @@ export async function runAi(prompt: string) {
       role: "user",
       parts: [
         {
-          text: `Generate a resume summary 1-2 sentences for a person with the following details: ${prompt} in plain text format`,
+          text: prompt,
         },
       ],
     },

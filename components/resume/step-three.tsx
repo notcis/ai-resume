@@ -30,7 +30,15 @@ export default function StepThree() {
               name="title"
               type="text"
               placeholder="Job Title"
-              value={exp.title}
+              value={exp.title ?? ""}
+              onChange={(e) => handleExperienceChange(e, index)}
+              className="mb-3"
+            />
+            <Input
+              name="company"
+              type="text"
+              placeholder="Company Name"
+              value={exp.company ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
             />
@@ -38,7 +46,7 @@ export default function StepThree() {
               name="address"
               type="text"
               placeholder="Company Address"
-              value={exp.address}
+              value={exp.address ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
             />
@@ -46,21 +54,21 @@ export default function StepThree() {
               name="startDate"
               type="text"
               placeholder="Start Date"
-              value={exp.startDate}
+              value={exp.startDate ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
             />
             <Input
               type="endDate"
               placeholder="End Date"
-              value={exp.endDate}
+              value={exp.endDate ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
             />
             <Textarea
               name="summary"
               onChange={(e) => handleExperienceChange(e, index)}
-              value={exp.summary}
+              value={exp.summary ?? ""}
               className="mb-2"
               placeholder="job summary"
               rows={10}

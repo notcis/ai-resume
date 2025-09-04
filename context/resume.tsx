@@ -4,22 +4,26 @@ import {
   getResumeFromDB,
   getUserResumeFromDB,
   saveResumeToDB,
+  updateExperienceToDB,
   updateResumeFromDB,
 } from "@/actions/resume.action";
-import { Resume } from "@/lib/generated/prisma";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 // Context for managing resume state
 type ResumeContextType = {
-  resume: typeof initialState;
-  setResume: React.Dispatch<React.SetStateAction<typeof initialState>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resume: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setResume: React.Dispatch<React.SetStateAction<any>>;
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   saveResume: () => Promise<void>;
-  resumes: Resume[];
-  setResumes: React.Dispatch<React.SetStateAction<Resume[]>>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  resumes: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setResumes: React.Dispatch<React.SetStateAction<any[]>>;
   getUserResumes: () => Promise<void>;
   updateResume: () => Promise<void>;
   experienceList: (typeof experienceField)[];
@@ -40,7 +44,6 @@ type ResumeContextType = {
 const ResumeContext = createContext<ResumeContextType | undefined>(undefined);
 
 const experienceField = {
-  id: "",
   title: "",
   company: "",
   address: "",
@@ -69,7 +72,8 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [resume, setResume] = useState<any>(initialState);
-  const [resumes, setResumes] = useState<Resume[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [resumes, setResumes] = useState<any[]>([]);
   const [step, setStep] = useState<number>(1);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,6 +82,23 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   ]);
 
   const [experienceLoading, setExperienceLoading] = useState<boolean[]>([]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateExperience = async (experienceList: any[]) => {
+    const data = await updateExperienceToDB({
+      ...resume,
+      experience: experienceList,
+    });
+
+    if (!data.success) {
+      toast.error(
+        data.message || "❌ Failed to update experience. Please try again."
+      );
+      return;
+    }
+    setResume(data.resume);
+    toast.success("✅ Experience updated. keep building!");
+  };
 
   useEffect(() => {
     if (pathname.includes("/resume/create")) {
@@ -134,7 +155,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
       );
       return;
     }
-    setResumes(data.resume as Resume[]);
+    setResumes(data.resume || []);
   };
 
   // Get resume by id
@@ -174,12 +195,14 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     index: number
   ) => {
     const newExperience = [...experienceList];
-    const [name, value] = [e.target.name, e.target.value];
+    const { name, value } = e.target;
     newExperience[index][name] = value;
     setExperienceList(newExperience);
   };
 
-  const handleExperienceSubmit = () => {};
+  const handleExperienceSubmit = () => {
+    updateExperience(experienceList);
+  };
 
   // Add new experience
   const addExperience = () => {
@@ -193,6 +216,8 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const removeExperience = () => {
     if (experienceList.length === 1) return;
     const newEntries = experienceList.slice(0, experienceList.length - 1);
+    console.log("newEntries:", newEntries);
+
     setExperienceList(newEntries);
   };
 

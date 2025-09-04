@@ -147,32 +147,89 @@ export const updateResumeFromDB = async (data: ResumeProps, id: string) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const updateExperienceToDB = async (resumeId: string, data: any) => {
+export const updateExperienceToDB = async (data: any) => {
   const session = await auth();
   if (!session?.user?.id) {
     return { success: false, message: "Unauthorized" };
   }
 
-  const { id, ...rest } = data;
+  const { id: resumeId, experience } = data;
 
   try {
-    const resume = await prisma.experience.upsert({
+    
+    const experiences = await prisma.experience.findMany({
       where: {
-        id,
         resumeId,
       },
-      update: {
-        ...rest,
+      select: { id: true },
+    });
+
+    if (experiences.length > experience.length) {
+      const experienceIds = experiences.map((exp) => exp.id);
+      const updatedExperienceIds = experience
+        .map((exp: { id?: string }) => exp.id)
+        .filter((id: string | undefined): id is string => !!id);
+      const idsToDelete = experienceIds.filter(
+        (id) => !updatedExperienceIds.includes(id)
+      );
+      await prisma.experience.deleteMany({
+        where: {
+          id: {
+            in: idsToDelete,
+          },
+          resumeId,
+        },
+      });
+    }
+
+    for (const exp of experience) {
+      const { id: experienceId } = exp;
+
+      if (!experienceId) {
+        await prisma.experience.createMany({
+          data: {
+            resumeId,
+            title: exp.title || null,
+            company: exp.company || null,
+            address: exp.address || null,
+            startDate: exp.startDate || null,
+            endDate: exp.endDate || null,
+            summary: exp.summary || null,
+          },
+        });
+      } else {
+        await prisma.experience.updateMany({
+          where: {
+            id: experienceId,
+            resumeId,
+          },
+          data: {
+            title: exp.title || null,
+            company: exp.company || null,
+            address: exp.address || null,
+            startDate: exp.startDate || null,
+            endDate: exp.endDate || null,
+            summary: exp.summary || null,
+          },
+        });
+      }
+    }
+
+    const resume = await prisma.resume.findUnique({
+      where: {
+        id: resumeId,
+        userId: session.user.id,
       },
-      create: {
-        ...rest,
-        resumeId,
+      include: {
+        experience: true,
+        education: true,
+        skill: true,
       },
     });
 
     return {
       success: true,
-      resume,
+      resume: { ...resume, email: resume?.userEmail },
     };
   } catch (error) {
     console.error("Error updating resume:", error);
