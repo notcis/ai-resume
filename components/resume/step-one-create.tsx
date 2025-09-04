@@ -10,21 +10,16 @@ export default function StepOneCreate() {
 
   // Handle form submission
   const handleSubmit = async () => {
-    // Save the resume
     await saveResume();
   };
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Update resume state and local storage
     const { name, value } = e.target;
-    // Update resume state and local storage
-    setResume((prev) => {
-      // Create a new resume object with the updated field
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setResume((prev: any) => {
       const updateResume = { ...prev, [name]: value };
-      // Save the updated resume to local storage
       localStorage.setItem("resume", JSON.stringify(updateResume));
-      // Return the updated resume
       return updateResume;
     });
   };
@@ -48,7 +43,7 @@ export default function StepOneCreate() {
         name="job"
         className="mb-3"
         onChange={(e) => setResume({ ...resume, job: e.target.value })}
-        value={resume.job}
+        value={resume?.job}
         placeholder="Enter your job title"
         type="text"
         required
@@ -57,7 +52,7 @@ export default function StepOneCreate() {
         name="address"
         className="mb-3"
         onChange={handleChange}
-        value={resume.address}
+        value={resume?.address}
         placeholder="Enter your address"
         type="text"
         required
@@ -66,7 +61,7 @@ export default function StepOneCreate() {
         name="phone"
         className="mb-3"
         onChange={handleChange}
-        value={resume.phone}
+        value={resume?.phone}
         placeholder="Enter your phone number"
         type="number"
         required
@@ -75,7 +70,7 @@ export default function StepOneCreate() {
         name="email"
         className="mb-3"
         onChange={handleChange}
-        value={resume.email}
+        value={resume?.email}
         placeholder="Enter your email"
         type="email"
         required

@@ -39,6 +39,14 @@ type ResumeContextType = {
   addExperience: () => void;
   removeExperience: () => void;
   handleExperienceGenerateWithAi: (index: number) => void;
+  educationList: (typeof educationField)[];
+  handleEducationChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  handleEducationSubmit: () => void;
+  addEducation: () => void;
+  removeEducation: () => void;
 };
 
 // Create the context
@@ -53,6 +61,13 @@ const experienceField = {
   summary: "",
 };
 
+const educationField = {
+  name: "",
+  address: "",
+  qualification: "",
+  year: "",
+};
+
 // Initial state for the resume
 const initialState = {
   name: "",
@@ -63,6 +78,7 @@ const initialState = {
   themeColor: "",
   summary: "",
   experience: [experienceField],
+  education: [educationField],
 };
 
 // Create the provider
@@ -84,23 +100,8 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   const [experienceLoading, setExperienceLoading] = useState<boolean[]>([]);
 
-  // Update experience in the database
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const updateExperience = async (experienceList: any[]) => {
-    const data = await updateExperienceToDB({
-      ...resume,
-      experience: experienceList,
-    });
-
-    if (!data.success) {
-      toast.error(
-        data.message || "❌ Failed to update experience. Please try again."
-      );
-      return;
-    }
-    setResume(data.resume);
-    toast.success("✅ Experience updated. keep building!");
-  };
+  const [educationList, setEducationList] = useState<any[]>([educationField]);
 
   // Reset resume when creating a new one
   useEffect(() => {
@@ -193,6 +194,24 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [resume]);
 
+  // Update experience in the database
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateExperience = async (experienceList: any[]) => {
+    const data = await updateExperienceToDB({
+      ...resume,
+      experience: experienceList,
+    });
+
+    if (!data.success) {
+      toast.error(
+        data.message || "❌ Failed to update experience. Please try again."
+      );
+      return;
+    }
+    setResume(data.resume);
+    toast.success("✅ Experience updated. keep building!");
+  };
+
   // Handle experience change
   const handleExperienceChange = (
     e:
@@ -209,6 +228,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   // Submit experience
   const handleExperienceSubmit = () => {
     updateExperience(experienceList);
+    setStep(4);
   };
 
   // Add new experience
@@ -217,15 +237,20 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
       ...experienceField,
     };
     setExperienceList([...experienceList, newExperience]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setResume((prevState: any) => ({
+      ...prevState,
+      experience: [...experienceList, newExperience],
+    }));
   };
 
   // Remove experience
   const removeExperience = () => {
     if (experienceList.length === 1) return;
     const newEntries = experienceList.slice(0, experienceList.length - 1);
-    console.log("newEntries:", newEntries);
 
     setExperienceList(newEntries);
+    updateExperience(newEntries);
   };
 
   // Handle experience generation with AI
@@ -269,6 +294,55 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Sync education list with resume education
+  useEffect(() => {
+    if (resume.education) {
+      setEducationList(resume.education);
+    }
+  }, [resume]);
+
+  const updateEducation = async (
+    educationList: (typeof educationField)[]
+  ) => {};
+
+  // Handle education change
+  const handleEducationChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newEducation = [...educationList];
+    const { name, value } = e.target;
+    newEducation[index][name] = value;
+    setEducationList(newEducation);
+  };
+
+  // Submit education
+  const handleEducationSubmit = () => {
+    updateEducation(educationList);
+    setStep(5);
+  };
+
+  // Add new education
+  const addEducation = () => {
+    const newEducation = {
+      ...educationField,
+    };
+    setEducationList([...educationList, newEducation]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setResume((prevState: any) => ({
+      ...prevState,
+      education: [...educationList, newEducation],
+    }));
+  };
+
+  // Remove education
+  const removeEducation = () => {
+    if (educationList.length === 1) return;
+    const newEntries = educationList.slice(0, educationList.length - 1);
+    setEducationList(newEntries);
+    updateEducation(newEntries);
+  };
+
   // Create the provider
   return (
     <ResumeContext.Provider
@@ -289,6 +363,11 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         handleExperienceGenerateWithAi,
         experienceList,
         experienceLoading,
+        educationList,
+        handleEducationChange,
+        handleEducationSubmit,
+        addEducation,
+        removeEducation,
       }}
     >
       {children}

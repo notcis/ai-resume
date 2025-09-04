@@ -19,7 +19,6 @@ export default function StepTwo() {
   const { resume, setResume, updateResume, setStep } = useResume();
   const [isPending, startTransition] = useTransition();
 
-  console.log("resume in step two:", resume);
 
   const handleSubmit = async () => {
     await updateResume();

@@ -10,23 +10,17 @@ export default function StepOne() {
 
   // Handle form submission
   const handleSubmit = async () => {
-    // Save the resume
     await updateResume();
     setStep(2);
   };
 
   // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Update resume state and local storage
     const { name, value } = e.target;
-    // Update resume state and local storage
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setResume((prev: any) => {
-      // Create a new resume object with the updated field
       const updateResume = { ...prev, [name]: value };
-      // Save the updated resume to local storage
       localStorage.setItem("resume", JSON.stringify(updateResume));
-      // Return the updated resume
       return updateResume;
     });
   };
@@ -39,7 +33,7 @@ export default function StepOne() {
         name="name"
         className="mb-3"
         onChange={handleChange}
-        value={resume.name}
+        value={resume?.name}
         placeholder="Enter your name"
         type="text"
         autoFocus
@@ -50,7 +44,7 @@ export default function StepOne() {
         name="job"
         className="mb-3"
         onChange={(e) => setResume({ ...resume, job: e.target.value })}
-        value={resume.job}
+        value={resume?.job}
         placeholder="Enter your job title"
         type="text"
         required
@@ -59,7 +53,7 @@ export default function StepOne() {
         name="address"
         className="mb-3"
         onChange={handleChange}
-        value={resume.address}
+        value={resume?.address}
         placeholder="Enter your address"
         type="text"
         required
@@ -68,7 +62,7 @@ export default function StepOne() {
         name="phone"
         className="mb-3"
         onChange={handleChange}
-        value={resume.phone}
+        value={resume?.phone}
         placeholder="Enter your phone number"
         type="number"
         required
@@ -77,7 +71,7 @@ export default function StepOne() {
         name="email"
         className="mb-3"
         onChange={handleChange}
-        value={resume.email}
+        value={resume?.email}
         placeholder="Enter your email"
         type="email"
         required
