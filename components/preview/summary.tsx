@@ -1,3 +1,5 @@
+import { formatSummary } from "@/lib/utils";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Summary({ resume }: { resume: any }) {
   return (
@@ -6,7 +8,10 @@ export default function Summary({ resume }: { resume: any }) {
         Summary
       </h2>
       {resume.summary && (
-        <div className="text-xs font-normal">{resume?.summary} </div>
+        <div
+          className="text-sm"
+          dangerouslySetInnerHTML={{ __html: formatSummary(resume?.summary) }}
+        />
       )}
     </div>
   );

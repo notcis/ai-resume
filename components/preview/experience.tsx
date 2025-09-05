@@ -1,10 +1,12 @@
+import { formatSummary } from "@/lib/utils";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function Experience({ resume }: { resume: any }) {
   return (
     <div className="my-6">
       <h2
         style={{ color: resume?.themeColor }}
-        className=" text-center font-bold text-sm mb-2"
+        className="font-bold text-sm mb-2"
       >
         Experience
       </h2>
@@ -17,7 +19,11 @@ export default function Experience({ resume }: { resume: any }) {
             <h2 className=" text-sm font-bold">{exp?.title}</h2>
             <h3 className="text-sm">{exp?.company}</h3>
             <p className="text-sm text-gray-600">{exp?.address}</p>
-            <p className="text-sm">{exp?.summary}</p>
+            {/* render formatted HTML (from Textarea / rich editor) */}
+            <div
+              className="text-sm font-normal mt-2.5"
+              dangerouslySetInnerHTML={{ __html: formatSummary(exp?.summary) }}
+            />
           </div>
         ))
       }

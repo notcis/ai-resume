@@ -349,11 +349,11 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Remove education
-  const removeEducation = () => {
+  const removeEducation = async () => {
     if (educationList.length === 1) return;
     const newEntries = educationList.slice(0, educationList.length - 1);
     setEducationList(newEntries);
-    updateEducation(newEntries);
+    await updateEducation(newEntries);
   };
 
   // Create the provider
