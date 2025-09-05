@@ -5,6 +5,7 @@ import {
   getResumeFromDB,
   getUserResumeFromDB,
   saveResumeToDB,
+  updateEducationToDB,
   updateExperienceToDB,
   updateResumeFromDB,
 } from "@/actions/resume.action";
@@ -301,9 +302,21 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [resume]);
 
-  const updateEducation = async (
-    educationList: (typeof educationField)[]
-  ) => {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateEducation = async (educationList: any[]) => {
+    const data = await updateEducationToDB({
+      ...resume,
+      education: educationList,
+    });
+    if (!data.success) {
+      toast.error(
+        data.message || "❌ Failed to update education. Please try again."
+      );
+      return;
+    }
+    setResume(data.resume);
+    toast.success("✅ Education updated. keep building!");
+  };
 
   // Handle education change
   const handleEducationChange = (

@@ -67,15 +67,15 @@ model Resume {
 }
 
 model Experience {
-  id        String    @id @default(cuid())
+  id        String  @id @default(cuid())
   resumeId  String
   title     String?
   company   String?
   address   String?
-  startDate DateTime?
-  endDate   DateTime?
-  summary   String?   @db.Text
-  resume    Resume?   @relation(fields: [resumeId], references: [id])
+  startDate String?
+  endDate   String?
+  summary   String? @db.Text
+  resume    Resume? @relation(fields: [resumeId], references: [id])
 
   @@index([resumeId], name: "index_experience_resume")
 }

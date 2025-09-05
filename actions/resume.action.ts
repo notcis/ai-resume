@@ -156,7 +156,6 @@ export const updateExperienceToDB = async (data: any) => {
   const { id: resumeId, experience } = data;
 
   try {
-    
     const experiences = await prisma.experience.findMany({
       where: {
         resumeId,
@@ -234,5 +233,89 @@ export const updateExperienceToDB = async (data: any) => {
   } catch (error) {
     console.error("Error updating resume:", error);
     return { success: false, message: "Failed to update resume" };
+  }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateEducationToDB = async (data: any) => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "Unauthorized" };
+  }
+  const { id: resumeId, education } = data;
+
+  try {
+    const educations = await prisma.education.findMany({
+      where: {
+        resumeId,
+      },
+      select: { id: true },
+    });
+    if (educations.length > education.length) {
+      const educationIds = educations.map((edu) => edu.id);
+      const updatedEducationIds = education
+        .map((edu: { id?: string }) => edu.id)
+        .filter((id: string | undefined): id is string => !!id);
+      const idsToDelete = educationIds.filter(
+        (id) => !updatedEducationIds.includes(id)
+      );
+      await prisma.education.deleteMany({
+        where: {
+          id: {
+            in: idsToDelete,
+          },
+          resumeId,
+        },
+      });
+    }
+
+    for (const edu of education) {
+      const { id: educationId } = edu;
+
+      if (!educationId) {
+        await prisma.education.create({
+          data: {
+            resumeId,
+            name: edu.name || null,
+            address: edu.address || null,
+            qualification: edu.qualification || null,
+            year: edu.year || null,
+          },
+        });
+      } else {
+        await prisma.education.update({
+          where: {
+            id: educationId,
+            resumeId,
+          },
+          data: {
+            name: edu.name || null,
+            address: edu.address || null,
+            qualification: edu.qualification || null,
+            year: edu.year || null,
+          },
+        });
+      }
+    }
+
+    const resume = await prisma.resume.findUnique({
+      where: {
+        id: resumeId,
+        userId: session.user.id,
+      },
+      include: {
+        experience: true,
+        education: true,
+        skill: true,
+      },
+    });
+
+    return {
+      success: true,
+      resume: { ...resume, email: resume?.userEmail },
+    };
+  } catch (error) {
+    console.error("Error updating education:", error);
+    return { success: false, message: "Failed to update education" };
   }
 };

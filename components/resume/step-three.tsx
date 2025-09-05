@@ -59,7 +59,8 @@ export default function StepThree() {
               className="mb-3"
             />
             <Input
-              type="endDate"
+              name="endDate"
+              type="text"
               placeholder="End Date"
               value={exp.endDate ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
