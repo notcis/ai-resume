@@ -416,7 +416,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   const handleSkillSubmit = () => {
     updateSkill(skillList);
-    //router.push(`/dashboard/resume/download/${resume?.id}`);
+    router.push(`/dashboard/resume/download/${resume?.id}`);
   };
 
   const addSkill = () => {

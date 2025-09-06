@@ -57,7 +57,7 @@ model Resume {
   experience Experience[]
   education  Education[]
   skill      Skill[]
-  user       User?        @relation(fields: [userId], references: [id])
+  user       User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -75,7 +75,7 @@ model Experience {
   startDate String?
   endDate   String?
   summary   String? @db.Text
-  resume    Resume? @relation(fields: [resumeId], references: [id])
+  resume    Resume? @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@index([resumeId], name: "index_experience_resume")
 }
@@ -87,7 +87,7 @@ model Education {
   address       String?
   qualification String?
   year          String?
-  resume        Resume? @relation(fields: [resumeId], references: [id])
+  resume        Resume? @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@index([resumeId], name: "index_education_resume")
 }
@@ -97,7 +97,7 @@ model Skill {
   resumeId String
   name     String?
   level    String?
-  resume   Resume? @relation(fields: [resumeId], references: [id])
+  resume   Resume? @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 
   @@index([resumeId], name: "index_skill_resume")
 }

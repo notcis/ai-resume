@@ -24,7 +24,7 @@ export default function Skill({
           resume?.skill.length > 0 &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           resume.skill.map((sk: any) => (
-            <div key={sk} className="flex items-center justify-between">
+            <div key={sk?.name} className="flex items-center justify-between">
               <h2 className=" text-sm font-bold">{sk?.name}</h2>
               <div className="flex-1 ml-2">
                 {print ? (
