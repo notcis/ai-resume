@@ -399,3 +399,22 @@ export const updateSkillToDB = async (data: any) => {
     return { success: false, message: "Failed to update skill" };
   }
 };
+
+export const deleteResumeFromDB = async (id: string) => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "Unauthorized" };
+  }
+  try {
+    await prisma.resume.delete({
+      where: {
+        id,
+        userId: session.user.id,
+      },
+    });
+    return { success: true, message: "Resume deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting resume:", error);
+    return { success: false, message: "Failed to delete resume" };
+  }
+};

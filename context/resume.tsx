@@ -2,6 +2,7 @@
 
 import { runAi } from "@/actions/gemeni-ai";
 import {
+  deleteResumeFromDB,
   getResumeFromDB,
   getUserResumeFromDB,
   saveResumeToDB,
@@ -57,6 +58,7 @@ type ResumeContextType = {
   handleSkillSubmit: () => void;
   addSkill: () => void;
   removeSkill: () => void;
+  deleteResume: (id: string) => Promise<void>;
 };
 
 // Create the context
@@ -437,6 +439,18 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     await updateSkill(newEntries);
   };
 
+  const deleteResume = async (id: string) => {
+    const data = await deleteResumeFromDB(id);
+    if (!data.success) {
+      toast.error(
+        data.message || "❌ Failed to delete resume. Please try again."
+      );
+      return;
+    }
+    setResumes((prev) => prev.filter((resume) => resume.id !== id));
+    toast.success(data.message || "✅ Resume deleted successfully!");
+  };
+
   // Create the provider
   return (
     <ResumeContext.Provider
@@ -467,6 +481,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         handleSkillSubmit,
         addSkill,
         removeSkill,
+        deleteResume,
       }}
     >
       {children}
