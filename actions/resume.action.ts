@@ -319,3 +319,83 @@ export const updateEducationToDB = async (data: any) => {
     return { success: false, message: "Failed to update education" };
   }
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateSkillToDB = async (data: any) => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return { success: false, message: "Unauthorized" };
+  }
+  const { id: resumeId, skill } = data;
+
+  try {
+    const skills = await prisma.skill.findMany({
+      where: {
+        resumeId,
+      },
+      select: { id: true },
+    });
+    if (skills.length > skill.length) {
+      const skillIds = skills.map((sk) => sk.id);
+      const updatedSkillIds = skill
+        .map((sk: { id?: string }) => sk.id)
+        .filter((id: string | undefined): id is string => !!id);
+      const idsToDelete = skillIds.filter(
+        (id) => !updatedSkillIds.includes(id)
+      );
+      await prisma.skill.deleteMany({
+        where: {
+          id: {
+            in: idsToDelete,
+          },
+          resumeId,
+        },
+      });
+    }
+
+    for (const sk of skill) {
+      const { id: skillId } = sk;
+
+      if (!skillId) {
+        await prisma.skill.create({
+          data: {
+            resumeId,
+            name: sk.name || null,
+            level: sk.level || null,
+          },
+        });
+      } else {
+        await prisma.skill.update({
+          where: {
+            id: skillId,
+            resumeId,
+          },
+          data: {
+            name: sk.name || null,
+            level: sk.level || null,
+          },
+        });
+      }
+    }
+
+    const resume = await prisma.resume.findUnique({
+      where: {
+        id: resumeId,
+        userId: session.user.id,
+      },
+      include: {
+        experience: true,
+        education: true,
+        skill: true,
+      },
+    });
+
+    return {
+      success: true,
+      resume: { ...resume, email: resume?.userEmail },
+    };
+  } catch (error) {
+    console.error("Error updating skill:", error);
+    return { success: false, message: "Failed to update skill" };
+  }
+};

@@ -24,6 +24,7 @@ export default function StepFour() {
               value={edu.name ?? ""}
               onChange={(e) => handleEducationChange(e, index)}
               className="mb-3"
+              autoFocus
             />
             <Input
               name="address"

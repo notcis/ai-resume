@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { HexColorPicker } from "react-colorful";
 
 export default function StepOne() {
   const { data: session } = useSession();
@@ -75,6 +76,10 @@ export default function StepOne() {
         placeholder="Enter your email"
         type="email"
         required
+      />
+      <HexColorPicker
+        color={resume?.themeColor}
+        onChange={(themeColor) => setResume({ ...resume, themeColor })}
       />
 
       <div className="flex justify-end">

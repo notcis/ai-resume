@@ -4,6 +4,7 @@ import Link from "next/link";
 import Summary from "../preview/summary";
 import Experience from "../preview/experience";
 import Education from "../preview/education";
+import Skill from "../preview/skill";
 
 export default function ResumeCard({ resume }: { resume: Resume }) {
   return (
@@ -23,6 +24,9 @@ export default function ResumeCard({ resume }: { resume: Resume }) {
         </div>
         <div className=" line-clamp-4">
           <Education resume={resume} />
+        </div>
+        <div className=" line-clamp-4">
+          <Skill resume={resume} />
         </div>
       </div>
     </Link>

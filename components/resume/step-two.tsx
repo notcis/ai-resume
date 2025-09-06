@@ -19,7 +19,6 @@ export default function StepTwo() {
   const { resume, setResume, updateResume, setStep } = useResume();
   const [isPending, startTransition] = useTransition();
 
-
   const handleSubmit = async () => {
     await updateResume();
     setStep(3);
@@ -41,12 +40,7 @@ export default function StepTwo() {
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
       <div className=" flex justify-between">
-        <h2
-          style={{ color: resume.themeColor }}
-          className=" text-2xl font-bold mb-5"
-        >
-          Summary
-        </h2>
+        <h2 className=" text-2xl font-bold mb-5">Summary</h2>
         <Button
           disabled={isPending}
           variant="destructive"

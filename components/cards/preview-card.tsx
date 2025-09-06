@@ -3,6 +3,7 @@ import PersonalDetails from "../preview/personal-details";
 import Summary from "../preview/summary";
 import Experience from "../preview/experience";
 import Education from "../preview/education";
+import Skill from "../preview/skill";
 
 export default function PreviewCard() {
   const { resume } = useResume();
@@ -31,6 +32,7 @@ export default function PreviewCard() {
       <Summary resume={newResume} />
       <Experience resume={resume} />
       <Education resume={resume} />
+      <Skill resume={resume} />
     </div>
   );
 }

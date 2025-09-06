@@ -8,6 +8,7 @@ import {
   updateEducationToDB,
   updateExperienceToDB,
   updateResumeFromDB,
+  updateSkillToDB,
 } from "@/actions/resume.action";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -48,6 +49,14 @@ type ResumeContextType = {
   handleEducationSubmit: () => void;
   addEducation: () => void;
   removeEducation: () => void;
+  skillList: (typeof skillField)[];
+  handleSkillChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  handleSkillSubmit: () => void;
+  addSkill: () => void;
+  removeSkill: () => void;
 };
 
 // Create the context
@@ -69,6 +78,11 @@ const educationField = {
   year: "",
 };
 
+const skillField = {
+  name: "",
+  level: "",
+};
+
 // Initial state for the resume
 const initialState = {
   name: "",
@@ -80,6 +94,7 @@ const initialState = {
   summary: "",
   experience: [experienceField],
   education: [educationField],
+  skill: [skillField],
 };
 
 // Create the provider
@@ -104,6 +119,8 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [educationList, setEducationList] = useState<any[]>([educationField]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [skillList, setSkillList] = useState<any[]>([skillField]);
   // Reset resume when creating a new one
   useEffect(() => {
     if (pathname.includes("/resume/create")) {
@@ -356,6 +373,70 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     await updateEducation(newEntries);
   };
 
+  useEffect(() => {
+    if (resume.skill) {
+      setSkillList(resume.skill);
+    }
+  }, [resume]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateSkill = async (skillList: any[]) => {
+    const invalidSkill = skillList.filter(
+      (skill) => !skill.name || !skill.level
+    );
+
+    if (invalidSkill.length > 0) {
+      toast.error("❌ Please fill in all skill fields before updating.");
+      return;
+    }
+
+    const data = await updateSkillToDB({
+      ...resume,
+      skill: skillList,
+    });
+    if (!data.success) {
+      toast.error(
+        data.message || "❌ Failed to update skills. Please try again."
+      );
+      return;
+    }
+    setResume(data.resume);
+    toast.success("✅ Skills updated. keep building!");
+  };
+
+  const handleSkillChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const newSkillList = [...skillList];
+    const { name, value } = e.target;
+    newSkillList[index][name] = value;
+    setSkillList(newSkillList);
+  };
+
+  const handleSkillSubmit = () => {
+    updateSkill(skillList);
+    //router.push(`/dashboard/resume/download/${resume?.id}`);
+  };
+
+  const addSkill = () => {
+    const newSkill = {
+      ...skillField,
+    };
+    setSkillList([...skillList, newSkill]);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setResume((prevState: any) => ({
+      ...prevState,
+      skill: [...skillList, newSkill],
+    }));
+  };
+  const removeSkill = async () => {
+    if (skillList.length === 1) return;
+    const newEntries = skillList.slice(0, skillList.length - 1);
+    setSkillList(newEntries);
+    await updateSkill(newEntries);
+  };
+
   // Create the provider
   return (
     <ResumeContext.Provider
@@ -381,6 +462,11 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
         handleEducationSubmit,
         addEducation,
         removeEducation,
+        skillList,
+        handleSkillChange,
+        handleSkillSubmit,
+        addSkill,
+        removeSkill,
       }}
     >
       {children}

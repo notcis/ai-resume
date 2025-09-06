@@ -33,6 +33,7 @@ export default function StepThree() {
               value={exp.title ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
+              autoFocus
             />
             <Input
               name="company"
