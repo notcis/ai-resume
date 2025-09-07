@@ -24,15 +24,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { registerUser } from "@/actions/auth.action";
+import toast from "react-hot-toast";
 
-const formSchema = z.object({
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6).max(100),
-});
+const formSchema = z
+  .object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6).max(100),
+    confirmPassword: z.string().min(6).max(100),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
-export default function SignInPage() {
+export default function RegisterPage() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,28 +52,28 @@ export default function SignInPage() {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    signIn("credentials", {
-      email: values.email,
-      password: values.password,
-      redirect: false,
-    });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const res = await registerUser(values.email, values.password);
+    if (!res.success) {
+      toast.error(res.message);
+      return;
+    }
 
-    router.push("/resume/create");
+    toast.success(res.message);
+    router.push("/sign-in");
   }
 
   return (
     <div className="flex justify-center items-center w-full h-screen p-2.5">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Create an account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email below to create a new account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -103,13 +115,33 @@ export default function SignInPage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Login</Button>
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Confirm Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="••••••••"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Please confirm your password.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Register</Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter>
-          <Button variant="link" onClick={() => router.push("/register")}>
-            Don&apos;t have an account? Register
+          <Button variant="link" onClick={() => router.push("/sign-in")}>
+            Already have an account? Sign in
           </Button>
         </CardFooter>
       </Card>
