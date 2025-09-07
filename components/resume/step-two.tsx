@@ -56,7 +56,7 @@ export default function StepTwo() {
       </div>
       <Textarea
         onChange={(e) => setResume({ ...resume, summary: e.target.value })}
-        value={resume.summary}
+        value={resume.summary || ""}
         className="mb-3"
         placeholder="Write a summary about yourself"
         rows={10}

@@ -3,14 +3,9 @@ import bcrypt from "bcryptjs";
 
 const users = [
   {
-    name: "notcis",
-    email: "notcis07@gmail.com",
-    password: bcrypt.hashSync("49310407", 10),
-  },
-  {
-    name: "Ploy",
-    email: "ploy@gmail.com",
-    password: bcrypt.hashSync("49310407", 10),
+    name: "coopmsds",
+    email: "coopmsds@gmail.com",
+    password: bcrypt.hashSync("coop2012", 10),
   },
 ];
 

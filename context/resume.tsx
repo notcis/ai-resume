@@ -124,27 +124,29 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [skillList, setSkillList] = useState<any[]>([skillField]);
   // Reset resume when creating a new one
-  useEffect(() => {
+  /*   useEffect(() => {
     if (pathname.includes("/resume/create")) {
       // Load resume from database
 
       setResume(initialState);
       setStep(1);
     }
-  }, [pathname]);
+  }, [pathname]); */
 
   // Load resume from local storage
-  /*   useEffect(() => {
+  useEffect(() => {
     const storedResume = localStorage.getItem("resume");
     if (storedResume) {
       setResume(JSON.parse(storedResume));
     }
-  }, []); */
+  }, []);
 
   // Get user resumes
   useEffect(() => {
-    getUserResumes();
-  }, []);
+    if (pathname.includes("/dashboard")) {
+      getUserResumes();
+    }
+  }, [pathname]);
 
   // Get resume by id
   useEffect(() => {
