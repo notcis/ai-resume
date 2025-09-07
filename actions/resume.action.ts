@@ -42,15 +42,12 @@ export const saveResumeToDB = async (data: ResumeProps) => {
 export const getUserResumeFromDB = async () => {
   const session = await auth();
   if (!session?.user?.id) {
-    return {
-      success: false,
-      message: "Unauthorized",
-    };
+    return { success: false, resume: [], message: "Unauthorized" };
   }
 
   const resume = await prisma.resume.findMany({
     where: {
-      userId: session.user.id,
+      userId: session?.user?.id,
     },
     include: {
       experience: true,
@@ -75,18 +72,9 @@ export const getUserResumeFromDB = async () => {
 
 // Get specific resume from database
 export const getResumeFromDB = async (id: string) => {
-  const session = await auth();
-  if (!session?.user?.id) {
-    return {
-      success: false,
-      message: "Unauthorized",
-    };
-  }
-
   const resume = await prisma.resume.findUnique({
     where: {
       id,
-      userId: session.user.id,
     },
     include: {
       experience: true,

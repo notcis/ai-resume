@@ -6,6 +6,7 @@ import { useResume } from "@/context/resume";
 import { DownloadIcon, PrinterIcon, ShareIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function DownloadPage() {
@@ -61,7 +62,17 @@ export default function DownloadPage() {
           </div>
           <div className=" flex flex-col items-center">
             <ShareIcon size={48} />
-            <Button className="my-2">Share</Button>
+            <Button
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  window.location.origin + `/resume/${currentResume?.id}`
+                );
+                toast.success("Link copied to clipboard!");
+              }}
+              className="my-2"
+            >
+              Share
+            </Button>
           </div>
         </div>
         {currentResume ? <ResumeCard resume={currentResume} /> : null}
