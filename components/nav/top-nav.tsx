@@ -12,7 +12,7 @@ export default function TopNav() {
   const { data: session } = useSession();
 
   return (
-    <nav className="flex justify-between items-center p-1 shadow">
+    <nav className="top-nav flex justify-between items-center p-1 shadow">
       <Link href="/">
         <Image src="/logo.svg" alt="Logo" width={50} height={39} />
       </Link>

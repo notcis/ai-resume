@@ -8,28 +8,13 @@ import Skill from "../preview/skill";
 export default function PreviewCard() {
   const { resume } = useResume();
 
-  const newResume = {
-    name: resume.name,
-    id: "preview-id",
-    userId: "preview-user-id",
-    userEmail: resume.email,
-    title: null,
-    job: resume.job,
-    address: resume.address,
-    themeColor: resume.themeColor,
-    phone: resume.phone,
-    summary: resume.summary,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
   return (
     <div
       className="shadow-lg max-h-screen w-full rounded-xl p-5 border-t-[20px] overflow-y-auto"
-      style={{ borderColor: resume.themeColor || "#b3aeae3d" }}
+      style={{ borderColor: resume?.themeColor }}
     >
-      <PersonalDetails resume={newResume} />
-      <Summary resume={newResume} />
+      <PersonalDetails resume={resume} />
+      <Summary resume={resume} />
       <Experience resume={resume} />
       <Education resume={resume} />
       <Skill resume={resume} />

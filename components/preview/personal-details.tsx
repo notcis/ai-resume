@@ -18,7 +18,7 @@ export default function PersonalDetails({ resume }: { resume: any }) {
 
       <hr
         className="border-[1.5px] my-2"
-        style={{ color: resume?.themeColor }}
+        style={{ borderColor: resume?.themeColor }}
       />
     </>
   );

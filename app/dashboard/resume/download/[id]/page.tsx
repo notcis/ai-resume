@@ -14,7 +14,8 @@ export default function DownloadPage() {
 
   const { resumes } = useResume();
 
-  const [currentResume, setCurrentResume] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [currentResume, setCurrentResume] = useState<any | null>(null);
 
   useEffect(() => {
     if (id && resumes) {
@@ -23,6 +24,21 @@ export default function DownloadPage() {
       setCurrentResume(foundResume || null);
     }
   }, [id, resumes]);
+
+  const printResume = () => {
+    if (typeof window !== "undefined") {
+      const newWindow = window.open(
+        `/resume/${currentResume?.id}`,
+        "_blank"
+      ) as Window;
+
+      newWindow.onload = () => {
+        setTimeout(() => {
+          newWindow.print();
+        }, 300);
+      };
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen mx-5 my-20 overflow-auto">
       <div className=" text-center w-full md:w-1/3">
@@ -33,11 +49,15 @@ export default function DownloadPage() {
         <div className="flex justify-between my-20">
           <div className=" flex flex-col items-center">
             <DownloadIcon size={48} />
-            <Button className="my-2">Download</Button>
+            <Button onClick={printResume} className="my-2">
+              Download
+            </Button>
           </div>
           <div className=" flex flex-col items-center">
             <PrinterIcon size={48} />
-            <Button className="my-2">Print</Button>
+            <Button onClick={printResume} className="my-2">
+              Print
+            </Button>
           </div>
           <div className=" flex flex-col items-center">
             <ShareIcon size={48} />
