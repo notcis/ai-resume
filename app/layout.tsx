@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AI Resume Builder",
-  description: "Create your resume with the power of AI",
+  description: "สร้างเรซูเม่ AI ฟรีของคุณวันนี้ | AI Resume Builder",
 };
 
 export default function RootLayout({
