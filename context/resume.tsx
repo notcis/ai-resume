@@ -292,7 +292,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const response = await runAi(
-        `Generate a list of duties and responsibilities in 3-4 bullet points for a job title "${jobTitle}" ${jobSummary} not in markdown format.`
+        `Generate a list of duties and responsibilities in 3-4 bullet points for a job title "${jobTitle}" ${jobSummary} not in markdown format. in thai language.`
       );
 
       const updatedExperienceList = experienceList.slice();

@@ -5,7 +5,7 @@ export default function Summary({ resume }: { resume: any }) {
   return (
     <div className="mt-5">
       <h2 style={{ color: resume?.themeColor }} className="font-bold mb-3">
-        Summary
+        เกี่ยวกับ
       </h2>
       {resume.summary && (
         <div

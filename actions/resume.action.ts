@@ -124,9 +124,21 @@ export const updateResumeFromDB = async (data: ResumeProps, id: string) => {
       },
     });
 
+    const updatedResume = await prisma.resume.findUnique({
+      where: {
+        id,
+        userId: session.user.id,
+      },
+      include: {
+        experience: true,
+        education: true,
+        skill: true,
+      },
+    });
+
     return {
       success: true,
-      resume: { ...resume, email: resume.userEmail },
+      resume: { ...updatedResume, email: updatedResume?.userEmail },
     };
   } catch (error) {
     console.error("Error updating resume:", error);

@@ -32,7 +32,7 @@ export default function StepTwo() {
       }
 
       const response = await runAi(
-        `Generate a resume summary 1-2 sentences for a person with the following details: ${resume.job} in plain text format`
+        `Generate a resume summary 1-2 sentences for a person with the following details: ${resume.job} in plain text format in thai language.`
       );
       setResume({ ...resume, summary: response || "" });
     });
@@ -40,7 +40,7 @@ export default function StepTwo() {
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
       <div className=" flex justify-between">
-        <h2 className=" text-2xl font-bold mb-5">Summary</h2>
+        <h2 className=" text-2xl font-bold mb-5">สรุปเกี่ยวกับตัวคุณ</h2>
         <Button
           disabled={isPending}
           variant="destructive"
@@ -51,14 +51,14 @@ export default function StepTwo() {
           ) : (
             <BrainIcon size={18} className="mr-2" />
           )}{" "}
-          Generate with AI
+          สร้างด้วย AI
         </Button>
       </div>
       <Textarea
         onChange={(e) => setResume({ ...resume, summary: e.target.value })}
         value={resume.summary || ""}
         className="mb-3"
-        placeholder="Write a summary about yourself"
+        placeholder="กรุณาเขียนสรุปเกี่ยวกับตัวคุณ"
         rows={10}
         required
       />
@@ -68,7 +68,7 @@ export default function StepTwo() {
         onChange={(value) => setResume({ ...resume, summary: value })}
       /> */}
       <div className="flex justify-end mt-3">
-        <Button onClick={handleSubmit}>Update</Button>
+        <Button onClick={handleSubmit}>อัปเดต</Button>
       </div>
     </div>
   );

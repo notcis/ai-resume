@@ -28,14 +28,14 @@ export default function StepOne() {
 
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
-      <h2 className=" text-2xl font-bold mb-5">Personal Information</h2>
+      <h2 className=" text-2xl font-bold mb-5">ข้อมูลส่วนตัว</h2>
 
       <Input
         name="name"
         className="mb-3"
         onChange={handleChange}
         value={resume?.name}
-        placeholder="Enter your name"
+        placeholder="กรุณากรอกชื่อของคุณ"
         type="text"
         autoFocus
         required
@@ -46,7 +46,7 @@ export default function StepOne() {
         className="mb-3"
         onChange={(e) => setResume({ ...resume, job: e.target.value })}
         value={resume?.job}
-        placeholder="Enter your job title"
+        placeholder="กรุณากรอกตำแหน่งงานของคุณ"
         type="text"
         required
       />
@@ -55,7 +55,7 @@ export default function StepOne() {
         className="mb-3"
         onChange={handleChange}
         value={resume?.address}
-        placeholder="Enter your address"
+        placeholder="กรุณากรอกที่อยู่ของคุณ"
         type="text"
         required
       />
@@ -64,7 +64,7 @@ export default function StepOne() {
         className="mb-3"
         onChange={handleChange}
         value={resume?.phone}
-        placeholder="Enter your phone number"
+        placeholder="กรุณากรอกหมายเลขโทรศัพท์ของคุณ"
         type="number"
         required
       />
@@ -73,7 +73,7 @@ export default function StepOne() {
         className="mb-3"
         onChange={handleChange}
         value={resume?.email}
-        placeholder="Enter your email"
+        placeholder="กรุณากรอกอีเมลของคุณ"
         type="email"
         required
       />
@@ -85,11 +85,11 @@ export default function StepOne() {
       <div className="flex justify-end">
         {!session?.user?.id ? (
           <Button type="button" variant="link" asChild>
-            <Link href="/sign-in">Sign in to save</Link>
+            <Link href="/sign-in">เข้าสู่ระบบเพื่อบันทึก</Link>
           </Button>
         ) : (
           <Button type="button" onClick={handleSubmit}>
-            Save
+            บันทึก
           </Button>
         )}
       </div>

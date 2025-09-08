@@ -22,14 +22,14 @@ export default function StepThree() {
   } = useResume();
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg overflow-y-auto">
-      <h2 className="text-2xl font-bold mb-5">Experiences</h2>
+      <h2 className="text-2xl font-bold mb-5">ประสบการณ์</h2>
       {experienceList.length > 0 &&
         experienceList.map((exp, index) => (
           <div key={index} className="mb-10">
             <Input
               name="title"
               type="text"
-              placeholder="Job Title"
+              placeholder="ตำแหน่งงาน"
               value={exp.title ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
@@ -38,7 +38,7 @@ export default function StepThree() {
             <Input
               name="company"
               type="text"
-              placeholder="Company Name"
+              placeholder="ชื่อบริษัท"
               value={exp.company ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
@@ -46,7 +46,7 @@ export default function StepThree() {
             <Input
               name="address"
               type="text"
-              placeholder="Company Address"
+              placeholder="ที่อยู่บริษัท"
               value={exp.address ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
@@ -54,7 +54,7 @@ export default function StepThree() {
             <Input
               name="startDate"
               type="text"
-              placeholder="Start Date"
+              placeholder="วันที่เริ่มงาน"
               value={exp.startDate ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
@@ -62,7 +62,7 @@ export default function StepThree() {
             <Input
               name="endDate"
               type="text"
-              placeholder="End Date"
+              placeholder="วันที่สิ้นสุดงาน"
               value={exp.endDate ?? ""}
               onChange={(e) => handleExperienceChange(e, index)}
               className="mb-3"
@@ -72,7 +72,7 @@ export default function StepThree() {
               onChange={(e) => handleExperienceChange(e, index)}
               value={exp.summary ?? ""}
               className="mb-2"
-              placeholder="job summary"
+              placeholder="รายละเอียดงาน"
               rows={10}
               required
             />
@@ -88,7 +88,7 @@ export default function StepThree() {
                 ) : (
                   <BrainIcon size={18} className="mr-2" />
                 )}
-                Generate with AI
+                สร้างด้วย AI
               </Button>
             </div>
           </div>
@@ -97,12 +97,12 @@ export default function StepThree() {
       <div className="flex justify-between mt-3">
         <Button variant="outline" type="button" onClick={addExperience}>
           <PlusIcon size={18} className="mr-2" />
-          Add
+          เพิ่ม
         </Button>
         {experienceList.length > 1 && (
           <Button variant="outline" type="button" onClick={removeExperience}>
             <XIcon size={18} className="mr-2" />
-            Remove
+            ลบ
           </Button>
         )}
         <Button
@@ -111,7 +111,7 @@ export default function StepThree() {
           onClick={handleExperienceSubmit}
         >
           <ArrowRightIcon size={18} className="mr-2" />
-          Next
+          ถัดไป
         </Button>
       </div>
     </div>

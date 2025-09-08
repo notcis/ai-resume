@@ -43,21 +43,19 @@ export default function DownloadPage() {
   return (
     <div className="flex justify-center items-center min-h-screen mx-5 my-20 overflow-auto">
       <div className=" text-center w-full md:w-1/3">
-        <h2 className="font-bold text-lg">
-          💥 Congratulations Your AI Resume is Ready!
-        </h2>
-        <p>you can now download, print, or share your resume.</p>
+        <h2 className="font-bold text-lg">เรซูเม่ของคุณพร้อมแล้ว!</h2>
+        <p>คุณสามารถดาวน์โหลด พิมพ์ หรือแชร์เรซูเม่ของคุณได้แล้ว</p>
         <div className="flex justify-between my-20">
           <div className=" flex flex-col items-center">
             <DownloadIcon size={48} />
             <Button onClick={printResume} className="my-2">
-              Download
+              ดาวน์โหลด
             </Button>
           </div>
           <div className=" flex flex-col items-center">
             <PrinterIcon size={48} />
             <Button onClick={printResume} className="my-2">
-              Print
+              พิมพ์
             </Button>
           </div>
           <div className=" flex flex-col items-center">
@@ -71,7 +69,7 @@ export default function DownloadPage() {
               }}
               className="my-2"
             >
-              Share
+              แชร์
             </Button>
           </div>
         </div>

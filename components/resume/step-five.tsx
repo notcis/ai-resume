@@ -12,22 +12,22 @@ export default function StepFive() {
   } = useResume();
 
   const skillLevels = [
-    { label: "Poor", value: "1" },
-    { label: "Basic", value: "2" },
-    { label: "Moderate", value: "3" },
-    { label: "Advanced", value: "4" },
-    { label: "Expert", value: "5" },
+    { label: "ระดับต่ำ", value: "1" },
+    { label: "ระดับพื้นฐาน", value: "2" },
+    { label: "ระดับปานกลาง", value: "3" },
+    { label: "ระดับสูง", value: "4" },
+    { label: "ระดับผู้เชี่ยวชาญ", value: "5" },
   ];
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg overflow-y-auto">
-      <h2 className=" text-2xl font-bold mb-5">Skills</h2>
+      <h2 className=" text-2xl font-bold mb-5">ทักษะ</h2>
       {skillList?.length > 0 &&
         skillList.map((skill, index) => (
           <div key={index} className="mb-10">
             <Input
               name="name"
               type="text"
-              placeholder="Skill"
+              placeholder="ทักษะ"
               value={skill.name}
               onChange={(e) => handleSkillChange(e, index)}
               className="mb-3"
@@ -55,15 +55,15 @@ export default function StepFive() {
       <div className="flex justify-between">
         <Button variant="outline" onClick={addSkill}>
           <PlusIcon size={18} className="mr-2" />
-          Add
+          เพิ่ม
         </Button>
         <Button onClick={removeSkill} variant="outline">
           <XIcon size={18} className="mr-2" />
-          Remove
+          ลบ
         </Button>
         <Button variant="outline" onClick={handleSkillSubmit}>
           <ArrowRightIcon size={18} className="mr-2" />
-          Next
+          ถัดไป
         </Button>
       </div>
     </div>

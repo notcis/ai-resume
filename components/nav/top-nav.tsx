@@ -22,11 +22,11 @@ export default function TopNav() {
       <div className="flex justify-end items-center gap-2">
         {!session?.user ? (
           <Button variant="link" asChild>
-            <Link href="/sign-in">Sign In</Link>
+            <Link href="/sign-in">เข้าสู่ระบบ</Link>
           </Button>
         ) : (
           <>
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/dashboard">แดชบอร์ด</Link>
             <UserNav user={session.user} />
           </>
         )}

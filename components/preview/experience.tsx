@@ -8,7 +8,7 @@ export default function Experience({ resume }: { resume: any }) {
         style={{ color: resume?.themeColor }}
         className="font-bold text-sm mb-2"
       >
-        Professional Experience
+        ประสบการณ์ทำงาน
       </h2>
       <hr style={{ borderColor: resume?.themeColor }} />
 

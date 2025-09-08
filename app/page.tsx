@@ -26,16 +26,18 @@ export default function LandingPage() {
         <div className="relative z-10 flex items-center justify-center h-full">
           <div className="text-center">
             <h1 className="text-white text-5xl font-bold mb-6">
-              Create Your Perfect Resume with AI
+              สร้างเรซูเม่ AI ฟรีของคุณวันนี้
             </h1>
             <p className="text-white mb-5 max-w-2xl mx-auto">
-              Our AI-powered resume builder helps you craft professional,
-              eye-catching resumes in seconds. It&apos;s free to use and
-              incredibly easy. Stand out from the crowd and land your dream job!
+              สร้างเรซูเม่ที่ดูเป็นมืออาชีพและปรับแต่งได้อย่างง่ายดายด้วย
+              เครื่องมือสร้างเรซูเม่ AI ฟรีของเรา
             </p>
             <Link href="/resume/create">
-              <Button size="lg" className="text-lg px-8 py-4">
-                Get Started for Free <ArrowRight className="ml-2" />
+              <Button
+                size="lg"
+                className="text-lg px-8 py-4 bg-blue-600 hover:bg-blue-700 cursor-pointer"
+              >
+                เริ่มต้นใช้งานฟรี <ArrowRight className="ml-2" />
               </Button>
             </Link>
           </div>
@@ -46,23 +48,23 @@ export default function LandingPage() {
       <section id="features" className="bg-white dark:bg-gray-800 pt-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-20">
-            Why Choose Our Free AI Resume Builder?
+            ทำไมต้องใช้ AI Resume Builder ของเรา?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
               icon={<Sparkles className="w-12 h-12 text-blue-500" />}
-              title="AI-Powered Content"
-              description="Our AI generates tailored content based on your experience and the job you're applying for, making it very easy to use."
+              title="เนื้อหาที่ขับเคลื่อนด้วย AI"
+              description="AI ของเราสร้างเนื้อหาที่ปรับแต่งได้ตามประสบการณ์ของคุณและงานที่คุณสมัคร ทำให้ใช้งานได้ง่ายมาก"
             />
             <FeatureCard
               icon={<CheckCircle className="w-12 h-12 text-green-500" />}
-              title="Create Unlimited Resumes"
-              description="Build as many resumes as you need, completely free. Perfect for applying to multiple jobs or industries."
+              title="สร้างเรซูเม่ไม่จำกัด"
+              description="สร้างเรซูเม่ได้มากเท่าที่คุณต้องการฟรี เหมาะสำหรับการสมัครงานหรืออุตสาหกรรมหลายแห่ง"
             />
             <FeatureCard
               icon={<ArrowRight className="w-12 h-12 text-purple-500" />}
-              title="Easy Customization"
-              description="Easily customize your resume with our intuitive interface. It's so simple, anyone can create a professional resume in minutes."
+              title="การปรับแต่งที่ง่าย"
+              description="ปรับแต่งเรซูเม่ของคุณได้อย่างง่ายดายด้วยอินเทอร์เฟซที่ใช้งานง่ายของเรา มันง่ายมาก ใครๆ ก็สามารถสร้างเรซูเม่ที่เป็นมืออาชีพได้ในไม่กี่นาที"
             />
           </div>
         </div>
@@ -72,30 +74,29 @@ export default function LandingPage() {
       <section className="bg-blue-600 dark:bg-blue-800 text-white py-20 mt-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">
-            Download, Print, or Share Your Resume in Minutes
+            พร้อมที่จะสร้างเรซูเม่ AI ฟรีของคุณแล้วหรือยัง?
           </h2>
           <div className="flex justify-center space-x-8 mb-8">
             <div className="flex flex-col items-center">
               <Download className="w-12 h-12 mb-2" />
-              <span>Download</span>
+              <span>ดาวน์โหลด</span>
             </div>
             <div className="flex flex-col items-center">
               <Printer className="w-12 h-12 mb-2" />
-              <span>Print</span>
+              <span>พิมพ์</span>
             </div>
             <div className="flex flex-col items-center">
               <Share2 className="w-12 h-12 mb-2" />
-              <span>Share</span>
+              <span>แชร์</span>
             </div>
           </div>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join thousands of job seekers who have successfully landed their
-            dream jobs using our free, easy-to-use AI-powered resume builder.
-            Create unlimited resumes and choose how to use them!
+            สร้างเรซูเม่ที่ดูเป็นมืออาชีพและปรับแต่งได้อย่างง่ายดายด้วยเครื่องมือสร้างเรซูเม่
+            AI
           </p>
           <Link href="/resume/create">
             <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
-              Create Your Free Resume Now <ArrowRight className="ml-2" />
+              สร้างเรซูเม่ AI ฟรีของคุณตอนนี้ <ArrowRight className="ml-2" />
             </Button>
           </Link>
         </div>

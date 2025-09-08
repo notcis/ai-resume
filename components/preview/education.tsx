@@ -6,7 +6,7 @@ export default function Education({ resume }: { resume: any }) {
         style={{ color: resume?.themeColor }}
         className="font-bold text-sm mb-2"
       >
-        Education
+        การศึกษา
       </h2>
       <hr style={{ borderColor: resume?.themeColor }} />
       {

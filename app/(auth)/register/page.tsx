@@ -71,9 +71,9 @@ export default function RegisterPage() {
     <div className="flex justify-center items-center w-full h-screen p-2.5">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Create an account</CardTitle>
+          <CardTitle>สร้างบัญชีใหม่</CardTitle>
           <CardDescription>
-            Enter your email below to create a new account
+            กรุณาใส่อีเมลของคุณด้านล่างเพื่อสร้างบัญชีใหม่
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -84,13 +84,10 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>อีเมล</FormLabel>
                     <FormControl>
                       <Input placeholder="you@example.com" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is your email address.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -100,7 +97,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>รหัสผ่าน</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -108,9 +105,6 @@ export default function RegisterPage() {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      This is your account password.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -120,7 +114,7 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>ยืนยันรหัสผ่าน</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -128,22 +122,26 @@ export default function RegisterPage() {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Please confirm your password.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Register</Button>
+              <div className="flex justify-between items-center">
+                <Button className="cursor-pointer" type="submit">
+                  สร้างบัญชีใหม่
+                </Button>
+                <Button
+                  type="button"
+                  className="cursor-pointer"
+                  variant="link"
+                  onClick={() => router.push("/sign-in")}
+                >
+                  มีบัญชีอยู่แล้ว? เข้าสู่ระบบ
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-          <Button variant="link" onClick={() => router.push("/sign-in")}>
-            Already have an account? Sign in
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

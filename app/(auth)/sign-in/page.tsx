@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,7 +19,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -59,9 +57,9 @@ export default function SignInPage() {
     <div className="flex justify-center items-center w-full h-screen p-2.5">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>เข้าสู่ระบบบัญชีของคุณ</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            กรุณาใส่อีเมลของคุณด้านล่างเพื่อเข้าสู่ระบบ
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,13 +70,10 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>อีเมล</FormLabel>
                     <FormControl>
                       <Input placeholder="you@example.com" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      This is your email address.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -88,7 +83,7 @@ export default function SignInPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>รหัสผ่าน</FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -96,22 +91,27 @@ export default function SignInPage() {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      This is your account password.
-                    </FormDescription>
+
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Login</Button>
+              <div className="flex justify-between items-center">
+                <Button className="cursor-pointer" type="submit">
+                  เข้าสู่ระบบ
+                </Button>
+                <Button
+                  type="button"
+                  className="cursor-pointer"
+                  variant="link"
+                  onClick={() => router.push("/register")}
+                >
+                  สร้างบัญชีใหม่
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-          <Button variant="link" onClick={() => router.push("/register")}>
-            Don&apos;t have an account? Register
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

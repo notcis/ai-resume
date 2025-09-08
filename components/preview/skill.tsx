@@ -15,7 +15,7 @@ export default function Skill({
   return (
     <div className="my-6">
       <h2 style={{ color: themeColor }} className=" font-bold text-sm mb-2">
-        Skills
+        ทักษะ
       </h2>
       <hr style={{ borderColor: themeColor }} />
 
