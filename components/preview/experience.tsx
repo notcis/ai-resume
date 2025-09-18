@@ -17,7 +17,10 @@ export default function Experience({ resume }: { resume: any }) {
         resume?.experience?.map((exp: any, index: number) => (
           <div key={index} className="my-5">
             <h2 className=" text-sm font-bold">{exp?.title}</h2>
-            <h3 className="text-sm">{exp?.company}</h3>
+            <h3 className="text-sm font-semibold">{exp?.company}</h3>
+            <p className="text-xs text-gray-600">
+              {exp?.startDate} - {exp?.endDate}
+            </p>
             <p className="text-sm text-gray-600 ">{exp?.address}</p>
             {/* render formatted HTML (from Textarea / rich editor) */}
             <div
