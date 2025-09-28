@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 
 const users = [
   {
-    name: "coopmsds",
-    email: "coopmsds@gmail.com",
-    password: bcrypt.hashSync("coop2012", 10),
+    name: "test",
+    email: "test@gmail.com",
+    password: bcrypt.hashSync("123456", 10),
   },
 ];
 
